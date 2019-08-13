@@ -21,10 +21,10 @@ Megaman can shoot projectiles. If the projectile collides with an enemy, the ene
 3. D3?
 
 ## Implementation Timeline
-Tuesday - Meeting with Coach, iron out gameplan. Finish initial setup, become familiar canvas and collect asseets (images, sprites etc).
-Wednesday - Attempt to render visuals, work on player movement (probably all single screen)
-Thursday - Figure out how to follow Megaman as he traverses the level, create enemies and iron mechanics out
-Friday/The Weekend - Hopefully put it all together
+* Tuesday - Meeting with Coach, iron out gameplan. Finish initial setup, become familiar canvas and collect asseets (images, sprites etc).
+* Wednesday - Attempt to render visuals, work on player movement (probably all single screen)
+* Thursday - Figure out how to follow Megaman as he traverses the level, create enemies and iron mechanics out
+* Friday/The Weekend - Hopefully put it all together
 
 ## Bonus Features
 1. Sliding
