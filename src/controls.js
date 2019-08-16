@@ -8,6 +8,8 @@ export let LEFT = false;
 export let RIGHT = false;
 export let SHOOT = false;
 // make more variables to account for
+export let FACERIGHT = false;
+export let FACELEFT = false;
 
 export default class Controls {
     constructor(player) {
@@ -31,9 +33,13 @@ export default class Controls {
                 break;
             case KEYCODE_LEFT:
                 LEFT = true;    
+                FACELEFT = false;
+                FACERIGHT = false;
                 break;
             case KEYCODE_RIGHT:
                 RIGHT = true;
+                FACELEFT = false;
+                FACERIGHT = false;
                 break;
             case KEYCODE_Z:
                 SHOOT = true;
@@ -49,9 +55,11 @@ export default class Controls {
                 break;
             case KEYCODE_LEFT:
                 LEFT = false;
+                FACELEFT = true;
                 break;
             case KEYCODE_RIGHT:
                 RIGHT = false;
+                FACERIGHT = true;
                 break;
             case KEYCODE_Z:
                 SHOOT = false;
