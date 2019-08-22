@@ -238,6 +238,7 @@ export default class Player {
 
         if (this.activity === 'shoot' && this.grounded) {
             this.ctx.drawImage(this.rightSprites, 361, this.sy, this.srcSprite.x, this.srcSprite.y, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
+            
         }
 
         if (this.activity === 'shoot-left') {

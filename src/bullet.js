@@ -11,6 +11,7 @@ export default class Bullet {
         this.dy = dy;
 
         this.xSize = xSize;
+        this.ySize = ySize;
 
     }
 
@@ -18,5 +19,6 @@ export default class Bullet {
         this.ctx.drawImage(this.busterShot, this.xPos, this.yPos, this.xSize, this.ySize);
     }
 
+    
 
 }
