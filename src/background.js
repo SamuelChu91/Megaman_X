@@ -19,7 +19,6 @@ export default class Background {
     drawBg() {
         debugger
         this.ctx.drawImage(this.sky, 0, 0, 3520, 440);
-        // this.ctx.drawImage(this.Bg, 0, 0, 7686, 220, 0, 0, 7686 * 2, 220 * 2);
         this.ctx.drawImage(this.Bg, 400, 0, 7686, 220, 0, 0, 7686 * 2, 220 * 2);
     }
 }
