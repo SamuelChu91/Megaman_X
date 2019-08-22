@@ -1,5 +1,5 @@
 import Controls, { RIGHT, LEFT, JUMP, SHOOT, FACELEFT, FACERIGHT } from './controls';
-import Bullets from './bullet';
+import Bullet from './bullet';
 
 // make map class
 // take in json array
