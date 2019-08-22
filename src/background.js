@@ -8,7 +8,7 @@ export default class Background {
 
     setBg () {
         this.Bg = new Image();
-        this.Bg.src = '../assets/images/stage/stage.png';
+        this.Bg.src = 'https://samuelchu91.github.io/Megaman_X/assets/images/stage/stage.png';
         this.Bg.onload = this.drawBg.bind(this);
 
         this.sky = new Image();
