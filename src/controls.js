@@ -35,11 +35,13 @@ export default class Controls {
                 LEFT = true;    
                 FACELEFT = false;
                 FACERIGHT = false;
+                RIGHT = false;
                 break;
             case KEYCODE_RIGHT:
                 RIGHT = true;
                 FACELEFT = false;
                 FACERIGHT = false;
+                LEFT = false;
                 break;
             case KEYCODE_Z:
                 SHOOT = true;

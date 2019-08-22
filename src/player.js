@@ -1,6 +1,9 @@
 import Controls, { RIGHT, LEFT, JUMP, SHOOT, FACELEFT, FACERIGHT } from './controls';
 import Bullets from './bullet';
 
+// make map class
+// take in json array
+
 const MEGA_RIGHT = {
     src: '../assets/images/player/mega_man.png',
 };
@@ -16,7 +19,14 @@ const MEGA_RUN_FRAMES = [1, 35, 69, 100, 142, 180, 213, 244, 275, 312, 353, 390]
 const MEGA_LEFT_RUN_FRAMES = [1380, 1345, 1315, 1282, 1240, 1202, 1170, 1141, 1107, 1067, 1028];
 
 const MEGA_RUN_SHOOT_FRAMES = [36, 75, 115, 162, 204, 243, 283, 326, 371, 413];
+const MEGA_LEFT_RUN_SHOOT_FRAMES = [1347, 1310, 1270, 1224, 1182, 1142, 1102, 1059, 1014, 972];
 
+const MEGA_JUMP_FRAMES = [3, 29, 53, 78, 108, 138, 170];
+const MEGA_JUMP_LEFT_FRAMES = [1385, 1363, 1340, 1315, 1285, 1255, 1223];
+const GRAVITY = 6;
+
+
+// 225, ground level
 
 export default class Player {
     constructor(ctx) {
@@ -34,19 +44,25 @@ export default class Player {
         this.spriteSize = 35;
         
         this.dX = 4;
-        this.dY = 4;
+        this.dY = 16.8;
+        this.jumpStr = 0;
+        this.yVel = 0;
         
         this.step = 35;
         this.runStep = 0;
         this.runShootStep = 0;
+        this.jumpStep = 0;
 
         this.traverse = this.traverse.bind(this);
         this.traverseRun = this.traverseRun.bind(this);
 
+        this.grounded = true;
         this.activity = 'stand';
         this.initAnim();
+        this.grav();
         this.renderStandTime = new Date().getTime();
         this.renderRunTime = new Date().getTime();
+        this.renderJumpTime = new Date().getTime();
     }
 
     initAnim() {
@@ -89,10 +105,25 @@ export default class Player {
             // FACERIGHT = false;
         }
     }
-
+    
     moveUp() {
-        if (JUMP) {
+        if (JUMP && this.grounded) {
             this.yPos -= this.dY;
+            this.yVel = this.dY;
+        } else if (JUMP && !this.grounded) {
+            this.yPos -= this.yVel;
+            this.yVel /= 1.053;
+        } else if (!JUMP && !this.grounded) {
+            this.yVel = 0;
+        }
+    }
+
+    grav() {
+        if (this.yPos + 35 >= 220) {
+            this.grounded = true;
+        } else {
+            this.grounded = false;
+            this.yPos += GRAVITY;
         }
     }
 
@@ -103,6 +134,8 @@ export default class Player {
             this.activity = 'shoot-left';
         } else if (SHOOT && RIGHT) {
             this.activity = 'run-shoot';
+        } else if (SHOOT && LEFT) {
+            this.activity = 'run-shoot-left';
         }
     }
 
@@ -116,9 +149,10 @@ export default class Player {
 
     update() {
         // debugger
-        this.moveLeft();
-        this.moveRight();
+        this.grav();
         this.moveUp();
+        this.moveRight();
+        this.moveLeft();
         this.shoot();
         // this.standingMega();
     }
@@ -157,6 +191,18 @@ export default class Player {
             this.runShootStep = 0;
         }
     }
+
+    traverseJump() {
+        let j = new Date().getTime();
+        if (j > this.renderJumpTime) {
+            this.jumpStep++;
+            this.renderJumpTime = j + 150;
+        }
+        if (this.jumpStep >= 6 || this.grounded) {
+            this.jumpStep = 0;
+        } 
+    }
+    
     
     drawPlayer() {
         // let step = 35;
@@ -165,7 +211,7 @@ export default class Player {
         //     step = 35;
         // }
         // debugger
-        if (this.activity === 'stand') {
+        if (this.activity === 'stand' && this.grounded) {
             // debugger
             // let frameCount = 0;
             this.ctx.drawImage(this.rightSprites, this.sx + this.step, this.sy, this.srcSprite.x, this.srcSprite.y, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
@@ -175,22 +221,22 @@ export default class Player {
             // this.ctx.drawImage(this.rightSprites, 315, 15, this.srcSprite.x, this.srcSprite.y, this.xPos + 100, this.yPos, this.xSize * 2, this.ySize * 2);
         } 
 
-        if (this.activity === 'run') {
+        if (this.activity === 'run' && this.grounded) {
             this.ctx.drawImage(this.rightSprites, 1 + MEGA_RUN_FRAMES[this.runStep], 67, this.srcSprite.x, this.srcSprite.y, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
             // this.ctx.drawImage(this.rightSprites, 315 + this.step, 15, this.srcSprite.x, this.srcSprite.y, this.xPos + 100, this.yPos, this.xSize * 2, this.ySize * 2);
 
         }
 
-        if (this.activity === 'stand-left') {
+        if (this.activity === 'stand-left' && this.grounded) {
             // debugger
             this.ctx.drawImage(this.leftSprites, 1055 + this.step, this.sy, 35, 35, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
         }
 
-        if (this.activity === 'run-left') {
+        if (this.activity === 'run-left' && this.grounded) {
             this.ctx.drawImage(this.leftSprites, MEGA_LEFT_RUN_FRAMES[this.runStep], 67, 35, 35, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
         }
 
-        if (this.activity === 'shoot') {
+        if (this.activity === 'shoot' && this.grounded) {
             this.ctx.drawImage(this.rightSprites, 361, this.sy, this.srcSprite.x, this.srcSprite.y, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
         }
 
@@ -201,12 +247,36 @@ export default class Player {
         if (this.activity === 'run-shoot') {
             this.ctx.drawImage(this.rightSprites, MEGA_RUN_SHOOT_FRAMES[this.runShootStep], 106, this.srcSprite.x, this.srcSprite.y, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
         }
+
+        if (this.activity === 'run-shoot-left') {
+            this.ctx.drawImage(this.leftSprites, MEGA_LEFT_RUN_SHOOT_FRAMES[this.runShootStep], 106, this.srcSprite.x, this.srcSprite.y, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
+        }
+
+        if (!this.grounded && FACERIGHT) {
+            this.ctx.drawImage(this.rightSprites, MEGA_JUMP_FRAMES[this.jumpStep], 148, this.srcSprite.x - 8, this.srcSprite.y + 8, this.xPos, this.yPos, 27 * 2, 43 * 2);
+        }
+
+        if (!this.grounded && FACELEFT) {
+            this.ctx.drawImage(this.leftSprites, MEGA_JUMP_LEFT_FRAMES[this.jumpStep], 148, this.srcSprite.x - 8, this.srcSprite.y + 8, this.xPos, this.yPos, 27 * 2, 43 * 2);
+        }
+        
+        if (this.activity === 'run' && !this.grounded) {
+            this.ctx.drawImage(this.rightSprites, MEGA_JUMP_FRAMES[this.jumpStep], 148, this.srcSprite.x - 8, this.srcSprite.y + 8, this.xPos, this.yPos, 27 * 2, 43 * 2);
+        }
+
+        if (this.activity ==='run-left' && !this.grounded) {
+            this.ctx.drawImage(this.leftSprites, MEGA_JUMP_LEFT_FRAMES[this.jumpStep], 148, this.srcSprite.x - 8, this.srcSprite.y + 8, this.xPos, this.yPos, 27 * 2, 43 * 2);
+        }
     }
 
+    // left = [1347, 1310, 1270, 1224, 1182, 1142, 1102, 1059, 1014, 972]
     // run shoot frames = [36, 75, 115, 162, 204, 243, 283, 326, 371, 413 ]
+    // jump r = [3, 29, 53, 78, 108, 138, 170]
+    // left jump = [1385, 1363, 1340, 1315, 1285, 1255, 1223]
     
     animate() {
         this.update();
+        this.traverseJump();
         this.traverseRun();
         this.traverse();
         this.drawPlayer();

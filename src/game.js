@@ -22,6 +22,8 @@ export default class Game {
 
     clearCanvas() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // ctx.clearRect(player_position_x - (camera_width/2), player_position_y - (camera_height/2), camera_width, camera_height)
+
     }
 
 //           let t = new Date().getTime();

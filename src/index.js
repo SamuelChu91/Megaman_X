@@ -1,7 +1,7 @@
 import Game from './game';
 
 const W = 700;
-const H = 520;
+const H = 440;
 
 export { W, H };
 
