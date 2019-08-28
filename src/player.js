@@ -45,7 +45,7 @@ export default class Player {
         
         this.dX = 4;
         this.dY = 16.8;
-        this.jumpStr = 0;
+        // this.jumpStr = 0;
         this.yVel = 0;
         
         this.step = 35;
@@ -63,16 +63,32 @@ export default class Player {
         this.renderStandTime = new Date().getTime();
         this.renderRunTime = new Date().getTime();
         this.renderJumpTime = new Date().getTime();
+
+        this.bullets = [];
+        this.canShoot = true;
+        this.onScreen = false;
+        this.shoot = this.shoot.bind(this);
+
+        this.shotX = this.xPos + 65;
+        this.shotY = this.yPos + 22;
+
+        this.faceRight = true;
+        this.faceLeft = false;
     }
+    
 
     initAnim() {
         this.rightSprites = new Image();
-        this.rightSprites.src = MEGA_RIGHT.src;
         this.rightSprites.onload = this.drawPlayer.bind(this);
+        this.rightSprites.src = MEGA_RIGHT.src;
 
         this.leftSprites = new Image();
-        this.leftSprites.src = MEGA_LEFT.src;
         this.leftSprites.onload = this.drawPlayer.bind(this);
+        this.leftSprites.src = MEGA_LEFT.src;
+
+        // this.busterShot = new Image();
+        // this.busterShot.onload = this.shoot.bind(this);
+        // this.busterShot.src = '../assets/images/player/bullet.png';
 
 
         // const standingFrames = [
@@ -87,6 +103,8 @@ export default class Player {
         if (LEFT) {
             this.xPos -= this.dX;
             this.activity = "run-left";
+            this.faceLeft = true;
+            this.faceRight = false;
         } 
         else if (FACELEFT){
             this.activity = 'stand-left';
@@ -99,6 +117,9 @@ export default class Player {
             // debugger
             this.xPos += this.dX;
             this.activity = "run";
+            this.faceRight = true;
+            this.faceLeft = false;
+
         } 
         else if (FACERIGHT){
             this.activity = 'stand';
@@ -127,7 +148,24 @@ export default class Player {
         }
     }
 
+    // if (this.shot) {
+    //     this.ctx.drawImage(this.busterShot, this.shotX += 1, this.shotY, 21, 14);
+    // }
+
+    // document.addEventListener('keydown', function(event) {
+    //     if (event.keyCode === 90) {
+    //         debugger
+    //         this.shot = true;
+    //     }
+    // });
+
     shoot() {
+        if(SHOOT && this.canShoot && this.faceRight) {
+            let shot = new Bullet(this.ctx, this.xPos + 65, this.yPos + 22, 6, 0);
+            this.bullets.push(shot);
+            this.canShoot = false;
+            setTimeout(() => { this.canShoot = true }, 200);
+        }
         if (SHOOT && FACERIGHT) {
             this.activity = 'shoot';
         } else if (SHOOT && FACELEFT) {
@@ -138,6 +176,8 @@ export default class Player {
             this.activity = 'run-shoot-left';
         }
     }
+
+
 
     // standingMega() {
     //     if (this.activity = "run-left") {
@@ -233,15 +273,15 @@ export default class Player {
         }
 
         if (this.activity === 'run-left' && this.grounded) {
+            // debugger
             this.ctx.drawImage(this.leftSprites, MEGA_LEFT_RUN_FRAMES[this.runStep], 67, 35, 35, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
         }
 
         if (this.activity === 'shoot' && this.grounded) {
             this.ctx.drawImage(this.rightSprites, 361, this.sy, this.srcSprite.x, this.srcSprite.y, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
-            
         }
 
-        if (this.activity === 'shoot-left') {
+        if (this.activity === 'shoot-left' && this.grounded) {
             this.ctx.drawImage(this.leftSprites, 1020, this.sy, this.srcSprite.x, this.srcSprite.y, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
         }
 
@@ -268,6 +308,15 @@ export default class Player {
         if (this.activity ==='run-left' && !this.grounded) {
             this.ctx.drawImage(this.leftSprites, MEGA_JUMP_LEFT_FRAMES[this.jumpStep], 148, this.srcSprite.x - 8, this.srcSprite.y + 8, this.xPos, this.yPos, 27 * 2, 43 * 2);
         }
+        this.bullets.forEach((bullet, idx) => {
+            debugger
+            bullet.drawBullet();
+            if (bullet.xPos > 700) {
+                this.bullets.splice(idx, 1);
+            } else {
+                bullet.updateRight();
+            }
+        })
     }
 
     // left = [1347, 1310, 1270, 1224, 1182, 1142, 1102, 1059, 1014, 972]
