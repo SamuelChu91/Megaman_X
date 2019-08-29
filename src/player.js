@@ -39,6 +39,8 @@ export default class Player {
         this.ySize = 35;
 
         this.floor = canvas.width/2 - 35;
+        // 315
+        // debugger
         
         this.sx = 225;
         this.sy = 29;
@@ -146,9 +148,12 @@ export default class Player {
     }
 
     grav() {
-        if (this.yPos + 35 >= 220 && this.floor <= 1000) {
+        if (this.yPos + 35 >= 220 && this.floor <= 950) {
+            this.grounded = true;
+        } else if (this.floor >= 1000 && this.yPos + 35 >= 180) {
             this.grounded = true;
         } else {
+            // debugger
             this.grounded = false;
             this.yPos += GRAVITY;
         }
