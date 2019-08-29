@@ -14,7 +14,7 @@ export default class Bullet {
     }
 
     drawBullet() {
-        debugger
+        // debugger
         this.ctx.drawImage(this.busterShot, this.xPos, this.yPos, 21, 14);
     }
 

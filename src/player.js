@@ -1,5 +1,6 @@
 import Controls, { RIGHT, LEFT, JUMP, SHOOT, FACELEFT, FACERIGHT } from './controls';
 import Bullet from './bullet';
+import BulletLeft from './bulletLeft';
 
 // make map class
 // take in json array
@@ -65,6 +66,7 @@ export default class Player {
         this.renderJumpTime = new Date().getTime();
 
         this.bullets = [];
+        this.leftBullets = [];
         this.canShoot = true;
         this.onScreen = false;
         this.shoot = this.shoot.bind(this);
@@ -161,11 +163,19 @@ export default class Player {
 
     shoot() {
         if(SHOOT && this.canShoot && this.faceRight) {
-            let shot = new Bullet(this.ctx, this.xPos + 65, this.yPos + 22, 6, 0);
+            let shot = new Bullet(this.ctx, this.xPos + 65, this.yPos + 22, 8, 0);
             this.bullets.push(shot);
             this.canShoot = false;
             setTimeout(() => { this.canShoot = true }, 200);
         }
+
+        if (SHOOT && this.canShoot && this.faceLeft) {
+            let leftShot = new BulletLeft(this.ctx, this.xPos - 5, this.yPos + 22, 8, 0);
+            this.leftBullets.push(leftShot);
+            this.canShoot = false;
+            setTimeout(() => { this.canShoot = true }, 200);
+        }
+
         if (SHOOT && FACERIGHT) {
             this.activity = 'shoot';
         } else if (SHOOT && FACELEFT) {
@@ -309,14 +319,23 @@ export default class Player {
             this.ctx.drawImage(this.leftSprites, MEGA_JUMP_LEFT_FRAMES[this.jumpStep], 148, this.srcSprite.x - 8, this.srcSprite.y + 8, this.xPos, this.yPos, 27 * 2, 43 * 2);
         }
         this.bullets.forEach((bullet, idx) => {
-            debugger
+            // debugger
             bullet.drawBullet();
             if (bullet.xPos > 700) {
                 this.bullets.splice(idx, 1);
             } else {
                 bullet.updateRight();
             }
-        })
+        });
+
+        this.leftBullets.forEach((bullet, idx) => {
+            bullet.drawBullet();
+            if (bullet.xPos < 0) {
+                this.leftBullets.splice(idx, 1);
+            } else {
+                bullet.updateLeft();
+            }
+        });
     }
 
     // left = [1347, 1310, 1270, 1224, 1182, 1142, 1102, 1059, 1014, 972]
