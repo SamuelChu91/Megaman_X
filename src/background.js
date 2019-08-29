@@ -1,14 +1,17 @@
 
+import Controls, {RIGHT, LEFT} from './controls';
 
 export default class Background {
     constructor(ctx) {
         this.ctx = ctx;
+        this.xPos = 0;
         this.setBg();
     }
 
     setBg () {
         this.Bg = new Image();
-        this.Bg.src = 'https://samuelchu91.github.io/Megaman_X/assets/images/stage/stage.png';
+        // this.Bg.src = 'https://samuelchu91.github.io/Megaman_X/assets/images/stage/stage.png';
+        this.Bg.src = '../assets/images/stage/stage.png';
         this.Bg.onload = this.drawBg.bind(this);
 
         this.sky = new Image();
@@ -19,7 +22,20 @@ export default class Background {
     drawBg() {
         // debugger
         this.ctx.drawImage(this.sky, 0, 0, 3520, 440);
-        this.ctx.drawImage(this.Bg, 400, 0, 7686, 220, 0, 0, 7686 * 2, 220 * 2);
+        this.ctx.drawImage(this.Bg, this.xPos, 0, 7686, 220, 0, 0, 7686 * 2, 220 * 2);
+    }
+
+    update() {
+        if (LEFT) {
+            this.xPos -= 2;
+        } else if (RIGHT) {
+            this.xPos += 2;
+        }
+    }
+
+    animate() {
+        this.update();
+        this.drawBg();
     }
 }
 

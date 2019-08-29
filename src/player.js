@@ -33,10 +33,12 @@ export default class Player {
     constructor(ctx) {
         // debugger
         this.ctx = ctx;
-        this.xPos = 120;
+        this.xPos = canvas.width/2 - 35;
         this.yPos = 190;
         this.xSize = 35;
         this.ySize = 35;
+
+        this.floor = canvas.width/2 - 35;
         
         this.sx = 225;
         this.sy = 29;
@@ -44,7 +46,7 @@ export default class Player {
 
         this.spriteSize = 35;
         
-        this.dX = 4;
+        this.dX = 2;
         this.dY = 16.8;
         // this.jumpStr = 0;
         this.yVel = 0;
@@ -103,7 +105,8 @@ export default class Player {
     moveLeft() {
         // debugger
         if (LEFT) {
-            this.xPos -= this.dX;
+            // this.xPos -= this.dX;
+            this.floor -= this.dX;
             this.activity = "run-left";
             this.faceLeft = true;
             this.faceRight = false;
@@ -117,7 +120,8 @@ export default class Player {
     moveRight() {
         if (RIGHT) {
             // debugger
-            this.xPos += this.dX;
+            // this.xPos += this.dX;
+            this.floor += this.dX;
             this.activity = "run";
             this.faceRight = true;
             this.faceLeft = false;
@@ -142,7 +146,7 @@ export default class Player {
     }
 
     grav() {
-        if (this.yPos + 35 >= 220) {
+        if (this.yPos + 35 >= 220 && this.floor <= 1000) {
             this.grounded = true;
         } else {
             this.grounded = false;

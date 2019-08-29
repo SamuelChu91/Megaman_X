@@ -42,7 +42,7 @@ export default class Game {
 
     render() {
         // debugger
-        this.background.drawBg();
+        this.background.animate();
         this.player.animate();
     }
 }
