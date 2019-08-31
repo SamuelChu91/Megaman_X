@@ -22,14 +22,14 @@ export default class Background {
     drawBg() {
         // debugger
         this.ctx.drawImage(this.sky, 0, 0, 3520, 440);
-        this.ctx.drawImage(this.Bg, this.xPos, 0, 7686, 220, 0, 0, 7686 * 2, 220 * 2);
+        this.ctx.drawImage(this.Bg, this.xPos, 0, 7686 * 2, 220 * 2, 0, 0, 7686 * 2, 220 * 2);
     }
 
     update() {
         if (LEFT) {
-            this.xPos -= 2;
+            this.xPos -= 4;
         } else if (RIGHT) {
-            this.xPos += 2;
+            this.xPos += 4;
         }
     }
 
@@ -42,3 +42,4 @@ export default class Background {
 // clear box collisions in tiled
 // maybe draw in map (depends on spritesheet)
 // generate monsters based on collisions*
+// y off by 40

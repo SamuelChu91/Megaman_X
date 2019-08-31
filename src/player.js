@@ -34,7 +34,7 @@ export default class Player {
         // debugger
         this.ctx = ctx;
         this.xPos = canvas.width/2 - 35;
-        this.yPos = 190;
+        this.yPos = 100;
         this.xSize = 35;
         this.ySize = 35;
 
@@ -48,7 +48,7 @@ export default class Player {
 
         this.spriteSize = 35;
         
-        this.dX = 2;
+        this.dX = 4;
         this.dY = 16.8;
         // this.jumpStr = 0;
         this.yVel = 0;
@@ -80,6 +80,9 @@ export default class Player {
 
         this.faceRight = true;
         this.faceLeft = false;
+
+        this.collision = true;
+        // debugger
     }
     
 
@@ -147,16 +150,30 @@ export default class Player {
         }
     }
 
+    // grav() {
+    //     if (this.yPos + 35 >= 220 && this.floor <= 950) {
+    //         this.grounded = true;
+    //     } else if (this.floor >= 1000 && this.yPos + 35 >= 180) {
+    //         this.grounded = true;
+    //     } else {
+    //         // debugger
+    //         this.grounded = false;
+    //         this.yPos += GRAVITY;
+    //     }
+    // }
+
     grav() {
-        if (this.yPos + 35 >= 220 && this.floor <= 950) {
-            this.grounded = true;
-        } else if (this.floor >= 1000 && this.yPos + 35 >= 180) {
-            this.grounded = true;
-        } else {
-            // debugger
-            this.grounded = false;
-            this.yPos += GRAVITY;
+        if (this.collision !== undefined) {
+            if (this.collision) {
+                // debugger
+                this.grounded = true;
+            } else {
+                // debugger
+                this.grounded = false;
+                this.yPos += GRAVITY;
+            }
         }
+        // debugger
     }
 
     // if (this.shot) {
