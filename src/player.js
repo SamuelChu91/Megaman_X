@@ -1,6 +1,7 @@
 import Controls, { RIGHT, LEFT, JUMP, SHOOT, FACELEFT, FACERIGHT } from './controls';
 import Bullet from './bullet';
 import BulletLeft from './bulletLeft';
+import Health from './health';
 
 // make map class
 // take in json array
@@ -82,6 +83,8 @@ export default class Player {
         this.faceLeft = false;
 
         this.collision = true;
+
+        this.hp = 3;
         // debugger
     }
     
@@ -94,6 +97,7 @@ export default class Player {
         this.leftSprites = new Image();
         this.leftSprites.onload = this.drawPlayer.bind(this);
         this.leftSprites.src = MEGA_LEFT.src;
+
 
         // this.busterShot = new Image();
         // this.busterShot.onload = this.shoot.bind(this);
@@ -174,6 +178,9 @@ export default class Player {
             }
         }
         // debugger
+        if (this.yPos > 405) {
+            this.hp = 0;
+        }
     }
 
     // if (this.shot) {
@@ -258,7 +265,7 @@ export default class Player {
         if (r > this.renderRunTime) {
             this.runStep++;
             this.runShootStep++;
-            this.renderRunTime = r + 100;
+            this.renderRunTime = r + 49;
         }
         if (this.runStep >= 11) {
             this.runStep = 0;
@@ -286,7 +293,7 @@ export default class Player {
         // if (step === 105) {
         //     step = 35;
         // }
-        // debugger
+        debugger
         if (this.activity === 'stand' && this.grounded) {
             // debugger
             // let frameCount = 0;
@@ -362,6 +369,9 @@ export default class Player {
                 bullet.updateLeft();
             }
         });
+
+        let healthBar = new Health(this.ctx, 80, 100, this.hp);
+        healthBar.drawHealth();
     }
 
     // left = [1347, 1310, 1270, 1224, 1182, 1142, 1102, 1059, 1014, 972]
@@ -377,3 +387,6 @@ export default class Player {
         this.drawPlayer();
     }
 }
+
+// first enemy 1160 x
+// 

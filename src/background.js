@@ -27,9 +27,9 @@ export default class Background {
 
     update() {
         if (LEFT) {
-            this.xPos -= 4;
+            this.xPos -= 3;
         } else if (RIGHT) {
-            this.xPos += 4;
+            this.xPos += 3;
         }
     }
 
