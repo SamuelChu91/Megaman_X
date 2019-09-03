@@ -62,6 +62,7 @@ export default class Player {
 
         this.traverse = this.traverse.bind(this);
         this.traverseRun = this.traverseRun.bind(this);
+        this.encounter = this.encounter.bind(this);
 
         this.grounded = true;
         this.activity = 'stand';
@@ -198,12 +199,22 @@ export default class Player {
     // });
 
     encounter() {
-        if(this.canMeet) {
-            let badGuy = new Enemy(this.ctx, 680, 100, 3, 0, this.floor);
+        if (this.canMeet) {
+            let badGuy = new Enemy(this.ctx, 680, 183, 3, 0, this.floor);
             this.badGuys.push(badGuy);
             this.canMeet = false;
-            setTimeout(() => { this.canMeet = true }, 1000);
+            setTimeout(() => { this.canMeet = true }, 1500);
+            // if (badGuy.collision(this.floor, this.yPos, this.xSize, this.ySize)) {
+            //     this.hp -= 1;
+            // }
+            for (let i = 0; i < this.badGuys.length; i++) {
+                if (this.badGuys[i].collision(this.floor, this.yPos, this.xSize, this.ySize)) {
+                    // debugger
+                    this.hp -= 1;
+                }
+            }
         }
+
     }
 
     shoot() {
@@ -244,12 +255,12 @@ export default class Player {
 
     update() {
         // debugger
+        this.encounter();
         this.grav();
         this.moveUp();
-        this.moveRight();
         this.moveLeft();
+        this.moveRight();
         this.shoot();
-        this.encounter();
         // this.standingMega();
     }
 
@@ -306,7 +317,7 @@ export default class Player {
         // if (step === 105) {
         //     step = 35;
         // }
-        debugger
+        // debugger
         if (this.activity === 'stand' && this.grounded) {
             // debugger
             // let frameCount = 0;
@@ -380,6 +391,15 @@ export default class Player {
                 this.leftBullets.splice(idx, 1);
             } else {
                 bullet.updateLeft();
+            }
+        });
+
+        this.badGuys.forEach((villian, idx) => {
+            villian.drawEnemy();
+            if (villian.x < 0) {
+                this.badGuys.splice(idx, 1);
+            } else {
+                villian.update();
             }
         });
 

@@ -59,7 +59,7 @@ export default class Game {
             if (this.arrOfPlatforms[i].collision(floor, yPos, xSize, ySize)) {
                 // debugger
                 boolVal = true;
-                // debugger
+                debugger
                 break;
             } else {
                 boolVal = false;
