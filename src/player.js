@@ -2,6 +2,7 @@ import Controls, { RIGHT, LEFT, JUMP, SHOOT, FACELEFT, FACERIGHT } from './contr
 import Bullet from './bullet';
 import BulletLeft from './bulletLeft';
 import Health from './health';
+import Enemy from './enemy';
 
 // make map class
 // take in json array
@@ -49,7 +50,7 @@ export default class Player {
 
         this.spriteSize = 35;
         
-        this.dX = 4;
+        this.dX = 3;
         this.dY = 16.8;
         // this.jumpStr = 0;
         this.yVel = 0;
@@ -84,6 +85,8 @@ export default class Player {
 
         this.collision = true;
 
+        this.canMeet = true;
+        this.badGuys = [];
         this.hp = 3;
         // debugger
     }
@@ -194,6 +197,15 @@ export default class Player {
     //     }
     // });
 
+    encounter() {
+        if(this.canMeet) {
+            let badGuy = new Enemy(this.ctx, 680, 100, 3, 0, this.floor);
+            this.badGuys.push(badGuy);
+            this.canMeet = false;
+            setTimeout(() => { this.canMeet = true }, 1000);
+        }
+    }
+
     shoot() {
         if(SHOOT && this.canShoot && this.faceRight) {
             let shot = new Bullet(this.ctx, this.xPos + 65, this.yPos + 22, 8, 0);
@@ -237,6 +249,7 @@ export default class Player {
         this.moveRight();
         this.moveLeft();
         this.shoot();
+        this.encounter();
         // this.standingMega();
     }
 
