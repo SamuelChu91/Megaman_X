@@ -8,11 +8,11 @@ import Enemy from './enemy';
 // take in json array
 
 const MEGA_RIGHT = {
-    src: '../assets/images/player/mega_man.png',
+    src: 'assets/images/player/mega_man.png',
 };
 
 const MEGA_LEFT = {
-    src: '../assets/images/player/mega_man2.png',
+    src: 'assets/images/player/mega_man2.png',
 };
 
 const MEGA_RUN_FRAMES = [1, 35, 69, 100, 142, 180, 213, 244, 275, 312, 353, 390];
