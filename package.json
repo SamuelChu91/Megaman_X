@@ -43,6 +43,9 @@
     "webpack-merge": "^4.2.1"
   },
   "devDependencies": {
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
     "mini-css-extract-plugin": "^0.8.0"
   }
 }

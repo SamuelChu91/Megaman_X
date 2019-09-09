@@ -1,42 +1,41 @@
 
-import Controls, {RIGHT, LEFT} from './controls';
+import { RIGHT, LEFT } from './controls';
 
 export default class Background {
-    constructor(ctx) {
-        this.ctx = ctx;
-        this.xPos = 0;
-        this.setBg();
-    }
+  constructor(ctx) {
+    this.ctx = ctx;
+    this.xPos = 0;
+    this.setBg();
+  }
 
-    setBg () {
-        this.Bg = new Image();
-        // this.Bg.src = 'https://samuelchu91.github.io/Megaman_X/assets/images/stage/stage.png';
-        this.Bg.src = '../assets/images/stage/stage.png';
-        this.Bg.onload = this.drawBg.bind(this);
+  setBg() {
+    this.Bg = new Image();
+    // this.Bg.src = 'https://samuelchu91.github.io/Megaman_X/assets/images/stage/stage.png';
+    this.Bg.src = '../assets/images/stage/stage.png';
+    this.Bg.onload = this.drawBg.bind(this);
 
-        this.sky = new Image();
-        this.sky.src = '../assets/images/stage/stage_background.png';
-        this.sky.onload = this.drawBg.bind(this);
-    }
+    this.sky = new Image();
+    this.sky.src = '../assets/images/stage/stage_background.png';
+    this.sky.onload = this.drawBg.bind(this);
+  }
 
-    drawBg() {
-        // debugger
-        this.ctx.drawImage(this.sky, 0, 0, 3520, 440);
-        this.ctx.drawImage(this.Bg, this.xPos, 0, 7686 * 2, 220 * 2, 0, 0, 7686 * 2, 220 * 2);
-    }
+  drawBg() {
+    this.ctx.drawImage(this.sky, 0, 0, 3520, 440);
+    this.ctx.drawImage(this.Bg, this.xPos, 0, 7686 * 2, 220 * 2, 0, 0, 7686 * 2, 220 * 2);
+  }
 
-    update() {
-        if (LEFT) {
-            this.xPos -= 3;
-        } else if (RIGHT) {
-            this.xPos += 3;
-        }
+  update() {
+    if (LEFT) {
+      this.xPos -= 3;
+    } else if (RIGHT) {
+      this.xPos += 3;
     }
+  }
 
-    animate() {
-        this.update();
-        this.drawBg();
-    }
+  animate() {
+    this.update();
+    this.drawBg();
+  }
 }
 
 // clear box collisions in tiled
