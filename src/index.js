@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
   canvas.height = H;
 
   const game = new Game(ctx, canvas);
+  // if (!game.paused) {
+  //   game.pause();
+  // } else {
   game.play();
-  game.render();
+  //   game.render();
+  // }
 });

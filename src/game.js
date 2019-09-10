@@ -21,10 +21,13 @@ export default class Game {
     this.arrOfPlatforms = [];
     this.initPlatforms();
 
-    this.colLoop = this.colLoop.bind(this);
+    this.collisionLoop = this.collisionLoop.bind(this);
     this.pause = this.pause.bind(this);
+    this.togglePause = this.togglePause.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
 
     this.paused = false;
+    document.addEventListener('keydown', this.handleKeyPress);
   };
 
   clearCanvas() {
@@ -39,7 +42,7 @@ export default class Game {
     });
   };
 
-  colLoop() {
+  collisionLoop() {
     const {
       floor,
       yPos,
@@ -73,21 +76,34 @@ export default class Game {
   //     this.animeTime = t + 1000 / this.speed;
   // }
 
-
   play() {
     this.animationFrameId = requestAnimationFrame(this.play);
     this.clearCanvas();
     this.render();
-    this.pause = false;
+    this.paused = false;
   };
 
   pause() {
     cancelAnimationFrame(this.animationFrameId);
-    this.pause = true;
+    this.paused = true;
+  };
+
+  togglePause() {
+    if (!this.paused) {
+      this.pause();
+    } else {
+      this.play();
+    };
+  };
+
+  handleKeyPress(e) {
+    if (e.which === 80) {
+      this.togglePause();
+    };
   };
 
   render() {
-    this.colLoop();
+    this.collisionLoop();
     this.background.animate();
     this.player.animate();
   };
