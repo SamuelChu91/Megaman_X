@@ -1,4 +1,6 @@
 import Game from './game';
+import Background from './background';
+import Player from './player';
 
 const W = 700;
 const H = 440;
@@ -12,11 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
   canvas.width = W;
   canvas.height = H;
 
-  const game = new Game(ctx, canvas);
-  // if (!game.paused) {
-  //   game.pause();
-  // } else {
-  game.play();
-  //   game.render();
-  // }
+  const player = new Player(ctx);
+  const background = new Background(ctx);
+
+  canvas.addEventListener('click', () => {
+    const game = new Game(ctx, canvas, player, background);
+    game.play();
+  });
+
+  // const game = new Game(ctx, canvas);
+  // game.play();
 });

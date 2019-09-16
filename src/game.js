@@ -6,12 +6,14 @@ import Platform from './platform';
 const PLATFORM = require('../assets/images/stage/stage2.json');
 
 export default class Game {
-  constructor(ctx, canvas) {
+  constructor(ctx, canvas, player, background) {
     this.ctx = ctx;
     this.canvas = canvas;
 
-    this.background = new Background(ctx);
-    this.player = new Player(ctx);
+    // this.background = new Background(ctx);
+    this.background = background;
+    // this.player = new Player(ctx);
+    this.player = player;
     this.controls = new Controls(this.player);
 
     this.play = this.play.bind(this);
