@@ -14,10 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
   canvas.width = W;
   canvas.height = H;
 
-  const player = new Player(ctx);
-  const background = new Background(ctx);
-
+  
   canvas.addEventListener('click', () => {
+    const player = new Player(ctx);
+    const background = new Background(ctx);
     const game = new Game(ctx, canvas, player, background);
     game.play();
   });

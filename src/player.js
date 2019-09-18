@@ -311,7 +311,7 @@ export default class Player {
     //     step = 35;
     // }
     if (this.activity === 'stand' && this.grounded) {
-      // debugger
+      debugger
       // let frameCount = 0;
       this.ctx.drawImage(this.rightSprites, this.sx + this.step, this.sy, this.srcSprite.x, this.srcSprite.y, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
       // this.ctx.drawImage(this.rightSprites, this.sx + 70, this.sy, this.srcSprite.x, this.srcSprite.y, this.xPos + 100, this.yPos, this.xSize * 2, this.ySize * 2);
