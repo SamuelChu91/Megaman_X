@@ -9,6 +9,9 @@
     "watch": "webpack --watch --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js  --optimize-minimize"
   },
+  "engines": {
+    "node": "10.13.0"
+  },
   "browserslist": [
     "last 1 version",
     "> 1%",
