@@ -2,7 +2,7 @@
   "name": "Megaman_X",
   "version": "1.0.0",
   "description": "This is a clone/tribute to a game that influenced how I approached obstacles!",
-  "main": "index.js",
+  "main": "postcss.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config webpack.dev.js",
