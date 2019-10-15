@@ -8,15 +8,44 @@ body {
     background-size: cover;
 }
 
+h1 {
+    font-size: 45px;
+    color: blue;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
 .window_body {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     height: 100vh;
 }
 
+.controls {
+    background: darkgrey;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .canvas_wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.nav_upload {
+    color: rgb(96, 96, 96);
+    margin: 5px;
+
+    &:hover {
+        opacity: 0.4;
+    }
 }
