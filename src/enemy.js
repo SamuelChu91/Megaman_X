@@ -13,6 +13,8 @@ export default class Enemy {
     this.initAnim();
     this.eX = 500;
 
+    this.health = 3;
+
     this.collision = this.collision.bind(this);
   }
 

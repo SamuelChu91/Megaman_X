@@ -175,15 +175,12 @@ export default class Player {
   grav() {
     if (this.collision !== undefined) {
       if (this.collision) {
-        // debugger
         this.grounded = true;
       } else {
-        // debugger
         this.grounded = false;
         this.yPos += GRAVITY;
       }
     }
-    // debugger
     if (this.yPos > 405) {
       this.hp = 0;
     }
@@ -205,7 +202,7 @@ export default class Player {
       const badGuy = new Enemy(this.ctx, 680, 183, 3, 0, this.floor);
       this.badGuys.push(badGuy);
       this.canMeet = false;
-      setTimeout(() => { this.canMeet = true; }, 1500);
+      setTimeout(() => { this.canMeet = true; }, 2000);
       // if (badGuy.collision(this.floor, this.yPos, this.xSize, this.ySize)) {
       //     this.hp -= 1;
       // }

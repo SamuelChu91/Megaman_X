@@ -110,3 +110,6 @@ export default class Game {
     this.player.animate();
   };
 };
+
+// check conditional statement coll loop for enemies
+// add enemies to array, loop through for collisions
