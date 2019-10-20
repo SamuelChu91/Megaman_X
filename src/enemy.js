@@ -1,11 +1,13 @@
 import { RIGHT, LEFT } from './controls';
 
 export default class Enemy {
-  constructor(ctx, x, y, dx, dy, mega) {
+  constructor(ctx, x, y, width, height, dx, dy, mega) {
     this.ctx = ctx;
 
     this.x = x;
     this.y = y;
+    this.width = width;
+    this.height = height;
     this.dx = dx;
     this.dy = dy;
 
@@ -43,6 +45,7 @@ export default class Enemy {
     const xCol = ((pX < x + width && pX > x) || (pX + pWidth < x + width && pX + pWidth > x));
     const yCol = ((pY < y + height && pY > y) || (pY + pHeight < y + height && pY + pHeight > y));
     return xCol && yCol;
+    // return xCol;
   }
 
   drawEnemy() {

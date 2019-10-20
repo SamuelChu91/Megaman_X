@@ -94,6 +94,7 @@ export default class Player {
     this.collision = true;
 
     this.canMeet = true;
+    this.canHit = true;
     this.badGuys = [];
     this.hp = 3;
   }
@@ -199,7 +200,7 @@ export default class Player {
 
   encounter() {
     if (this.canMeet) {
-      const badGuy = new Enemy(this.ctx, 680, 183, 3, 0, this.floor);
+      const badGuy = new Enemy(this.ctx, 680, 183, 30, 30, 3, 0, this.floor);
       this.badGuys.push(badGuy);
       this.canMeet = false;
       setTimeout(() => { this.canMeet = true; }, 2000);
@@ -207,8 +208,11 @@ export default class Player {
       //     this.hp -= 1;
       // }
       for (let i = 0; i < this.badGuys.length; i += 1) {
-        if (this.badGuys[i].collision(this.floor, this.yPos, this.xSize, this.ySize)) {
+        debugger
+        if (this.badGuys[i].collision(this.xPos, this.yPos, this.xSize, this.ySize && this.canHit)) {
           this.hp -= 1;
+          this.canHit = false;
+          setTimeout(() => { this.canHit = true; }, 1500);
         }
       }
     }

@@ -1,4 +1,6 @@
 # Megaman X
+[**Live Link**](http://megamanx.s3-website-us-east-1.amazonaws.com/)
+
 This is a clone/tribute to a game that influenced how I approached obstacles!
 
 ## Background and Overview
