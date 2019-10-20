@@ -208,7 +208,6 @@ export default class Player {
       //     this.hp -= 1;
       // }
       for (let i = 0; i < this.badGuys.length; i += 1) {
-        debugger
         if (this.badGuys[i].collision(this.xPos, this.yPos, this.xSize, this.ySize && this.canHit)) {
           this.hp -= 1;
           this.canHit = false;
