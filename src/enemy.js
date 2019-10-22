@@ -14,8 +14,10 @@ export default class Enemy {
     this.mega = mega;
     this.initAnim();
     this.eX = 500;
+    this.sY = 10;
+    this.sX = 450;
 
-    this.health = 3;
+    this.hp = 3;
 
     this.collision = this.collision.bind(this);
   }
@@ -56,17 +58,26 @@ export default class Enemy {
     if (this.mega > 1050 && this.mega < 1350) {
       this.ctx.drawImage(this.elec, 0, 0, 50, 60, this.eX, 135, 100, 120);
     }
+
+    if (this.mega > 1700 && this.mega < 1900) {
+      this.ctx.drawImage(this.stomper, 0, 0, 40, 40, this.sX, this.sY, 80, 80);
+    }
   }
 
   update() {
     this.x -= this.dx;
+    if (this.sY < 100) {
+      this.sY += 3;
+    }
     if (RIGHT) {
       this.x -= this.dx;
       this.eX -= this.dx;
+      this.sX -= this.dx;
     }
 
     if (LEFT) {
       this.eX += this.dx;
+      this.sX += this.dx;
     }
   }
 

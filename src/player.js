@@ -199,7 +199,7 @@ export default class Player {
   // });
 
   encounter() {
-    if (this.canMeet) {
+    if ((this.canMeet && this.floor > 800 && this.floor < 1000) || (this.canMeet && this.floor > 1050 && this.floor < 1350) || (this.canMeet && this.floor > 1700 && this.floor < 1900)) {
       const badGuy = new Enemy(this.ctx, 680, 183, 30, 30, 3, 0, this.floor);
       this.badGuys.push(badGuy);
       this.canMeet = false;
@@ -208,28 +208,28 @@ export default class Player {
       //     this.hp -= 1;
       // }
       for (let i = 0; i < this.badGuys.length; i += 1) {
-        if (this.badGuys[i].collision(this.xPos, this.yPos, this.xSize, this.ySize && this.canHit)) {
+        if (this.badGuys[i].collision(this.xPos, this.yPos, this.xSize, this.ySize) && this.canHit) {
           this.hp -= 1;
           this.canHit = false;
-          setTimeout(() => { this.canHit = true; }, 1500);
+          setTimeout(() => { this.canHit = true; }, 350);
         }
       }
     }
   }
 
   shoot() {
-    if (SHOOT && this.canShoot && this.faceRight) {
+    if (SHOOT && this.canShoot && this.faceRight && this.bullets.length < 4) {
       const shot = new Bullet(this.ctx, this.xPos + 65, this.yPos + 22, 8, 0);
       this.bullets.push(shot);
       this.canShoot = false;
-      setTimeout(() => { this.canShoot = true; }, 200);
+      setTimeout(() => { this.canShoot = true; }, 300);
     }
 
     if (SHOOT && this.canShoot && this.faceLeft) {
       const leftShot = new BulletLeft(this.ctx, this.xPos - 5, this.yPos + 22, 8, 0);
       this.leftBullets.push(leftShot);
       this.canShoot = false;
-      setTimeout(() => { this.canShoot = true; }, 200);
+      setTimeout(() => { this.canShoot = true; }, 300);
     }
 
     if (SHOOT && FACERIGHT) {
@@ -324,12 +324,10 @@ export default class Player {
     }
 
     if (this.activity === 'stand-left' && this.grounded) {
-      // debugger
       this.ctx.drawImage(this.leftSprites, 1055 + this.step, this.sy, 35, 35, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
     }
 
     if (this.activity === 'run-left' && this.grounded) {
-      // debugger
       this.ctx.drawImage(this.leftSprites, MEGA_LEFT_RUN_FRAMES[this.runStep], 67, 35, 35, this.xPos, this.yPos, this.xSize * 2, this.ySize * 2);
     }
 
@@ -365,7 +363,6 @@ export default class Player {
       this.ctx.drawImage(this.leftSprites, MEGA_JUMP_LEFT_FRAMES[this.jumpStep], 148, this.srcSprite.x - 8, this.srcSprite.y + 8, this.xPos, this.yPos, 27 * 2, 43 * 2);
     }
     this.bullets.forEach((bullet, idx) => {
-      // debugger
       bullet.drawBullet();
       if (bullet.xPos > 700) {
         this.bullets.splice(idx, 1);
@@ -385,11 +382,29 @@ export default class Player {
 
     this.badGuys.forEach((villian, idx) => {
       villian.drawEnemy();
-      if (villian.x < 0) {
+      if (villian.x < 0 || villian.hp === 0) {
         this.badGuys.splice(idx, 1);
       } else {
         villian.update();
       }
+    });
+
+    this.bullets.forEach((bullet, idx) => {
+      this.badGuys.forEach((villian, idx2) => {
+        if (villian.collision(bullet.xPos, bullet.yPos, 21, 14)) {
+          villian.hp -= 1;
+          this.bullets.splice(idx, 1);
+        }
+      });
+    });
+
+    this.leftBullets.forEach((bullet, idx) => {
+      this.badGuys.forEach((villian, idx2) => {
+        if (villian.collision(bullet.xPos, bullet.yPos, 21, 14)) {
+          villian.hp -= 1;
+          this.bullets.splice(idx, 1);
+        }
+      });
     });
 
     const healthBar = new Health(this.ctx, 80, 100, this.hp);
@@ -401,6 +416,7 @@ export default class Player {
   // jump r = [3, 29, 53, 78, 108, 138, 170]
   // left jump = [1385, 1363, 1340, 1315, 1285, 1255, 1223]
   animate() {
+    debugger
     this.update();
     this.traverseJump();
     this.traverseRun();
