@@ -10,6 +10,8 @@ import Bullet from './bullet';
 import BulletLeft from './bulletLeft';
 import Health from './health';
 import Enemy from './enemy';
+import Stomper from './stomper';
+import Wheel from './wheel';
 
 // make map class
 // take in json array
@@ -94,8 +96,12 @@ export default class Player {
     this.collision = true;
 
     this.canMeet = true;
+    this.canStomper = true;
+    this.canWheeler = true;
     this.canHit = true;
     this.badGuys = [];
+    this.badStompers = [];
+    this.badWheels = [];
     this.hp = 3;
   }
 
@@ -199,21 +205,77 @@ export default class Player {
   // });
 
   encounter() {
-    if ((this.canMeet && this.floor > 800 && this.floor < 1000) || (this.canMeet && this.floor > 1050 && this.floor < 1350) || (this.canMeet && this.floor > 1700 && this.floor < 1900)) {
-      const badGuy = new Enemy(this.ctx, 680, 183, 30, 30, 3, 0, this.floor);
+    if (this.canMeet && this.floor > 800 && this.floor < 1000) {
+      const badGuy = new Enemy(this.ctx, 680, 183, 40, 40, 3, 0, this.floor);
       this.badGuys.push(badGuy);
       this.canMeet = false;
       setTimeout(() => { this.canMeet = true; }, 2000);
       // if (badGuy.collision(this.floor, this.yPos, this.xSize, this.ySize)) {
       //     this.hp -= 1;
       // }
-      for (let i = 0; i < this.badGuys.length; i += 1) {
-        if (this.badGuys[i].collision(this.xPos, this.yPos, this.xSize, this.ySize) && this.canHit) {
-          this.hp -= 1;
-          this.canHit = false;
-          setTimeout(() => { this.canHit = true; }, 350);
-        }
-      }
+      // for (let i = 0; i < this.badGuys.length; i += 1) {
+      //   if (this.badGuys[i].collision(this.xPos, this.yPos, this.xSize, this.ySize) && this.canHit) {
+      //     this.hp -= 1;
+      //     this.canHit = false;
+      //     setTimeout(() => { this.canHit = true; }, 350);
+      //   }
+      // }
+    }
+    if (this.canMeet && this.floor > 1050 && this.floor < 1350 && this.badGuys.length < 2) {
+      const badGuy = new Enemy(this.ctx, 500, 135, 50, 100, 3, 0, this.floor);
+      this.badGuys.push(badGuy);
+      this.canMeet = false;
+      setTimeout(() => { this.canMeet = true; }, 2000);
+    }
+
+    if (this.canMeet && this.floor > 2000 && this.floor < 2500) {
+      const badGuy = new Enemy(this.ctx, 500, 10, 30, 40, 3, 0, this.floor);
+      this.badGuys.push(badGuy);
+      this.canMeet = false;
+      setTimeout(() => { this.canMeet = true; }, 2000);
+    }
+
+    if (this.canMeet && this.floor > 2900 && this.floor < 3500) {
+      const badGuy = new Enemy(this.ctx, 500, 10, 30, 40, 3, 0, this.floor);
+      this.badGuys.push(badGuy);
+      this.canMeet = false;
+      setTimeout(() => { this.canMeet = true; }, 2000);
+    }
+
+    if (this.canMeet && this.floor > 3600 && this.floor < 3800) {
+      const badGuy = new Enemy(this.ctx, 450, 105, 50, 100, 3, 0, this.floor);
+      this.badGuys.push(badGuy);
+      this.canMeet = false;
+      setTimeout(() => { this.canMeet = true; }, 2000);
+    }
+
+
+    if (this.canStomper && this.floor > 3600 && this.floor < 4100) {
+      const badStomper = new Stomper(this.ctx, 600, 10, 30, 40, 3, 0, this.floor);
+      this.badStompers.push(badStomper);
+      this.canStomper = false;
+      setTimeout(() => { this.canStomper = true; }, 2000);
+    }
+
+    if (this.canMeet && this.floor > 4200 && this.floor < 4500) {
+      const badGuy = new Enemy(this.ctx, 425, 105, 50, 100, 3, 0, this.floor);
+      this.badGuys.push(badGuy);
+      this.canMeet = false;
+      setTimeout(() => { this.canMeet = true; }, 2000);
+    }
+
+    if (this.canStomper && this.floor > 4200 && this.floor < 4500) {
+      const badStomper = new Stomper(this.ctx, 600, 10, 30, 40, 3, 0, this.floor);
+      this.badStompers.push(badStomper);
+      this.canStomper = false;
+      setTimeout(() => { this.canStomper = true; }, 2000);
+    }
+
+    if (this.canWheeler && this.floor > 4200 && this.floor < 4500) {
+      const badWheeler = new Wheel(this.ctx, 600, 150, 40, 40, 3, 0, this.floor);
+      this.badWheels.push(badWheeler);
+      this.canWheeler = false;
+      setTimeout(() => { this.canWheeler = true; }, 2000);
     }
   }
 
@@ -389,6 +451,24 @@ export default class Player {
       }
     });
 
+    this.badStompers.forEach((villian, idx) => {
+      villian.drawEnemy();
+      if (villian.x < 0 || villian.hp === 0) {
+        this.badStompers.splice(idx, 1);
+      } else {
+        villian.update();
+      }
+    });
+
+    this.badWheels.forEach((villian, idx) => {
+      villian.drawEnemy();
+      if (villian.x < 0 || villian.hp === 0) {
+        this.badWheels.splice(idx, 1);
+      } else {
+        villian.update();
+      }
+    });
+
     this.bullets.forEach((bullet, idx) => {
       this.badGuys.forEach((villian, idx2) => {
         if (villian.collision(bullet.xPos, bullet.yPos, 21, 14)) {
@@ -407,6 +487,42 @@ export default class Player {
       });
     });
 
+    this.bullets.forEach((bullet, idx) => {
+      this.badStompers.forEach((villian, idx2) => {
+        if (villian.collision(bullet.xPos, bullet.yPos, 21, 14)) {
+          villian.hp -= 1;
+          this.bullets.splice(idx, 1);
+        }
+      });
+    });
+
+    this.leftBullets.forEach((bullet, idx) => {
+      this.badStompers.forEach((villian, idx2) => {
+        if (villian.collision(bullet.xPos, bullet.yPos, 21, 14)) {
+          villian.hp -= 1;
+          this.bullets.splice(idx, 1);
+        }
+      });
+    });
+
+    this.bullets.forEach((bullet, idx) => {
+      this.badWheels.forEach((villian, idx2) => {
+        if (villian.collision(bullet.xPos, bullet.yPos, 21, 14)) {
+          villian.hp -= 1;
+          this.bullets.splice(idx, 1);
+        }
+      });
+    });
+
+    this.leftBullets.forEach((bullet, idx) => {
+      this.badWheels.forEach((villian, idx2) => {
+        if (villian.collision(bullet.xPos, bullet.yPos, 21, 14)) {
+          villian.hp -= 1;
+          this.bullets.splice(idx, 1);
+        }
+      });
+    });
+
     const healthBar = new Health(this.ctx, 80, 100, this.hp);
     healthBar.drawHealth();
   }
@@ -416,7 +532,6 @@ export default class Player {
   // jump r = [3, 29, 53, 78, 108, 138, 170]
   // left jump = [1385, 1363, 1340, 1315, 1285, 1255, 1223]
   animate() {
-    debugger
     this.update();
     this.traverseJump();
     this.traverseRun();

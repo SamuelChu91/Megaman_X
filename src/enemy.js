@@ -13,9 +13,6 @@ export default class Enemy {
 
     this.mega = mega;
     this.initAnim();
-    this.eX = 500;
-    this.sY = 10;
-    this.sX = 450;
 
     this.hp = 3;
 
@@ -56,29 +53,79 @@ export default class Enemy {
     }
 
     if (this.mega > 1050 && this.mega < 1350) {
-      this.ctx.drawImage(this.elec, 0, 0, 50, 60, this.eX, 135, 100, 120);
+      // x : 500
+      // y : 135
+      this.ctx.drawImage(this.elec, 0, 0, 50, 60, this.x, this.y, 100, 120);
     }
 
-    if (this.mega > 1700 && this.mega < 1900) {
-      this.ctx.drawImage(this.stomper, 0, 0, 40, 40, this.sX, this.sY, 80, 80);
+    if (this.mega > 2000 && this.mega < 2500) {
+      // x : 450
+      // y : 10
+      this.ctx.drawImage(this.stomper, 0, 0, 40, 40, this.x, this.y, 80, 80);
     }
+
+    if (this.mega > 2900 && this.mega < 3500) {
+      // x : 450
+      // y : 10
+      this.ctx.drawImage(this.stomper, 0, 0, 40, 40, this.x, this.y, 80, 80);
+    }
+
+    if (this.mega > 3600 && this.mega < 3800) {
+      // x : 500
+      // y : 135
+      this.ctx.drawImage(this.elec, 0, 0, 50, 60, this.x, this.y, 100, 120);
+    }
+
+    // if (this.mega > 3600 && this.mega < 3800) {
+    //   // x : 500
+    //   // y : 135
+    //   this.ctx.drawImage(this.stomper, 0, 0, 40, 40, this.x, this.y, 80, 80);
+    // }
+
+    if (this.mega > 4200 && this.mega < 4500) {
+      // x : 500
+      // y : 135
+      this.ctx.drawImage(this.elec, 0, 0, 50, 60, this.x, this.y, 100, 120);
+    }
+    
   }
 
   update() {
-    this.x -= this.dx;
-    if (this.sY < 100) {
-      this.sY += 3;
+    if (this.mega > 800 && this.mega < 1000) {
+      this.x -= this.dx;
     }
+
+    // if ((RIGHT && this.mega > 800 && this.mega < 1000) || (RIGHT && this.mega > 1050 && this.mega < 1600)) {
+    //   this.x -= this.dx;
+    // }
+
+    if (this.mega > 2000 && this.mega < 2500 && this.y < 120) {
+      this.y += 3;
+    }
+
+    if (this.mega > 2900 && this.mega < 3500 && this.y < 150) {
+      this.y += 3;
+    }
+
     if (RIGHT) {
       this.x -= this.dx;
-      this.eX -= this.dx;
-      this.sX -= this.dx;
     }
 
     if (LEFT) {
-      this.eX += this.dx;
-      this.sX += this.dx;
+      this.x += this.dx;
     }
+
+    // if (LEFT && this.mega > 800 && this.mega < 1000) {
+    //   this.x -= this.dx;
+    // }
+    // if (RIGHT && this.mega > 1050 && this.mega < 1600) {
+    //   this.x -= this.dx;
+    // }
+
+    // if (LEFT) {
+    //   this.eX += this.dx;
+    //   this.sX += this.dx;
+    // }
   }
 
   // animate() {
