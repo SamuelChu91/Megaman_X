@@ -46,7 +46,7 @@ export default class Stomper {
       this.ctx.drawImage(this.stomper, 0, 0, 40, 40, this.x, this.y, 80, 80);
     }
 
-    if (this.mega > 4300 && this.mega < 4600) {
+    if (this.mega > 4200 && this.mega < 4500) {
       // x : 500
       // y : 135
       this.ctx.drawImage(this.stomper, 0, 0, 40, 40, this.x, this.y, 80, 80);
@@ -58,7 +58,7 @@ export default class Stomper {
       this.y += 3;
     }
 
-    if (this.mega > 4300 && this.mega < 4600 && this.y < 150) {
+    if (this.mega > 4200 && this.mega < 4500 && this.y < 150) {
       this.y += 3;
     }
 
