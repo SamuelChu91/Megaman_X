@@ -83,6 +83,27 @@ export default class Game {
     this.clearCanvas();
     this.render();
     this.paused = false;
+
+    if (this.player.hp < 1) {
+      this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.font = '50px serif';
+      this.ctx.fillStyle = "blue";
+      this.ctx.fillText('Megaman does not give up!', 75, 250);
+      this.ctx.fillText('Click to Try Again!', 125, 300);
+      this.pause();
+    }
+
+    if (this.player.floor > 4930) {
+      this.ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.font = '50px serif';
+      this.ctx.fillStyle = 'blue';
+      this.ctx.fillText("Megaman's Adventure", 75, 250);
+      this.ctx.fillText("Will Continue...!", 125, 300);
+      this.ctx.fillText("Great Job!!!", 175, 350);
+      this.pause();
+    }
   };
 
   pause() {
@@ -109,6 +130,10 @@ export default class Game {
     this.background.animate();
     this.player.animate();
   };
+
+  gameOver() {
+
+  }
 };
 
 // check conditional statement coll loop for enemies
