@@ -42,7 +42,6 @@ const GRAVITY = 6;
 
 export default class Player {
   constructor(ctx) {
-    // debugger
     this.ctx = ctx;
     this.xPos = canvas.width / 2 - 35;
     this.yPos = 100;
@@ -51,7 +50,6 @@ export default class Player {
 
     this.floor = canvas.width / 2 - 35;
     // 315
-    // debugger
         
     this.sx = 225;
     this.sy = 29;
@@ -205,6 +203,11 @@ export default class Player {
   // });
 
   encounter() {
+    const xBox = this.xPos;
+    const yBox = this.yPos;
+    const xDimension = this.xSize;
+    const yDimension = this.ySize;
+
     if (this.canMeet && this.floor > 800 && this.floor < 1000) {
       const badGuy = new Enemy(this.ctx, 680, 183, 40, 40, 3, 0, this.floor);
       this.badGuys.push(badGuy);
@@ -216,11 +219,12 @@ export default class Player {
       // for (let i = 0; i < this.badGuys.length; i += 1) {
       //   if (this.badGuys[i].collision(this.xPos, this.yPos, this.xSize, this.ySize) && this.canHit) {
       //     this.hp -= 1;
-      //     this.canHit = false;
-      //     setTimeout(() => { this.canHit = true; }, 350);
+      //     // this.canHit = false;
+      //     // setTimeout(() => { this.canHit = true; }, 350);
       //   }
       // }
     }
+    
     if (this.canMeet && this.floor > 1050 && this.floor < 1350 && this.badGuys.length < 2) {
       const badGuy = new Enemy(this.ctx, 500, 135, 50, 100, 3, 0, this.floor);
       this.badGuys.push(badGuy);
@@ -277,6 +281,30 @@ export default class Player {
       this.canWheeler = false;
       setTimeout(() => { this.canWheeler = true; }, 2000);
     }
+
+    this.badGuys.forEach((villian, idx) => {
+      if (villian.collision(xBox, yBox, xDimension, yDimension) && this.canHit) {
+        this.hp -= 1;
+        this.canHit = false;
+        setTimeout(() => { this.canHit = true; }, 1000);
+      }
+    });
+
+    this.badStompers.forEach((villian, idx) => {
+      if (villian.collision(xBox, yBox, xDimension, yDimension) && this.canHit) {
+        this.hp -= 1;
+        this.canHit = false;
+        setTimeout(() => { this.canHit = true; }, 1000);
+      }
+    });
+
+    this.badWheels.forEach((villian, idx) => {
+      if (villian.collision(xBox, yBox, xDimension, yDimension) && this.canHit) {
+        this.hp -= 1;
+        this.canHit = false;
+        setTimeout(() => { this.canHit = true; }, 1000);
+      }
+    });
   }
 
   shoot() {
